@@ -1,0 +1,45 @@
+
+<section class="container">
+  <p>
+    Get the data based on Parameters
+  </p>
+  <button mat-raised-button routerLink="/editorupdate/a" style="float:right;">New!</button>
+  <button mat-raised-button routerLink="/editorupdate/{{result[0].ScriptId}}" style="float:right;">Edit!</button>
+  <div *ngFor="let list of result">
+     <label for="a"><b>{{list.Title}} Script :</b> </label> {{list.Script1}} <br>
+    <div *ngFor="let item of list.Parameters; let i = index" >
+       <div>
+          {{item.ParameterName}}
+       </div>
+       <div>
+         <input type="text" (blur)="onParaBlur(i,$event.target.value)" ><br><br>
+       </div>
+    </div>
+    <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
+  </div>
+
+<!-- Table to display the grid data for respective Script. -->
+<div>
+  <!-- {{resultGrid|json}}  -->
+  <br> 
+</div> 
+ <div *ngIf="resultGrid">
+    <div style="overflow-x:scroll;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor="let col of columnNames">{{col}}</th>
+          </tr>
+       </thead>
+       <tbody>
+          <tr *ngFor="let obj of resultGrid">
+             <td scope="row" *ngFor="let col of columnNames"> {{obj[col]}}</td>
+          </tr>
+       </tbody>
+     </table>
+    </div> 
+  </div>
+  <div *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+</section>

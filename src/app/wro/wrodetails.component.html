@@ -1,0 +1,52 @@
+<br>
+<p>Please type in a WRO to investigate</p><br>
+<section>
+  <div *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+  <div class="container">
+    <form [formGroup]="form" (ngSubmit)="formSubmit()">
+      <mat-form-field>
+        <input matInput formControlName="wroId" placeholder="wro Id" required>
+        <mat-error *ngIf="form.controls.wroId.invalid && form.controls.wroId.touched">
+          <span>wro id required</span>
+        </mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button color="primary">Submit</button>
+      </div>
+    </form>
+    <!-- {{form.value | json}} -->
+    <div *ngIf="result">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">WRO-RequestId</th>
+            <th scope="col">InventoryId</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">FilledQuantity</th>
+            <th scope="col">Tracking</th>
+            <th scope="col">LotNumber</th>
+            <th scope="col">LotDate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of result; let i = index">
+              <td scope="row">{{i}}</td>
+            <td scope="row">{{row.Id}}</td>
+            <td scope="row">{{row.RequestId}}</td>
+            <td scope="row">{{row.InventoryId}}</td>
+            <td scope="row">{{row.Quantity}}</td>
+            <td scope="row">{{row.FilledQuantity}}</td>
+            <td scope="row">{{row.Tracking}}</td>
+            <td scope="row">{{row.LotNumber}}</td>
+            <td scope="row">{{row.LotDate}}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

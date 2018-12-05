@@ -1,0 +1,59 @@
+<p>
+  rules works!
+</p>
+<!-- <mat-card> -->
+<mat-tab-group>
+  <mat-tab label="Rule">
+    <section>
+      <div *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+      <div class="container">
+        <form [formGroup]="form" (ngSubmit)="formSubmit()">
+          <mat-form-field>
+            <input matInput formControlName="ruleId" placeholder="ruleId" required>
+            <mat-error *ngIf="form.controls.ruleId.invalid && form.controls.ruleId.touched">
+              <span>Rule id required. </span>
+            </mat-error>
+          </mat-form-field>
+          <div>
+              <button mat-raised-button color="primary">Submit</button>
+          </div>
+        </form>
+      <div *ngIf="result">
+          <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">RuleId</th>
+                  <th scope="col">CreationDate</th>
+                  <th scope="col">UserId</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">EntityType</th>
+                  <th scope="col">LastUpdated</th>
+                  <th scope="col">Active</th>
+                  <th scope="col">Expression</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of result; let i = index">
+                    <td scope="row">{{i}}</td>
+                  <td scope="row">{{row.ruleId}}</td>
+                  <td scope="row">{{row.CreationDate}}</td>
+                  <td scope="row">{{row.UserId}}</td>
+                  <td scope="row">{{row.Title}}</td>
+                  <td scope="row">{{row.EntityType}}</td>
+                  <td scope="row">{{row.LastUpdated}}</td>
+                  <td scope="row">{{row.Active}}</td>
+                  <td scope="row">{{row.Expression}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </section>
+  </mat-tab>
+  <mat-tab label="Rule Conditions"> Content 2 </mat-tab>
+  <mat-tab label="Rule Action"> Content 3 </mat-tab>
+</mat-tab-group>
+<!-- </mat-card> -->

@@ -1,0 +1,37 @@
+<section>
+  <div *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+  <div class="container">
+    <form [formGroup]="form" (ngSubmit)="formSubmit()">
+      <mat-form-field>
+        <input matInput formControlName="carrierId" placeholder="Carrrier Id" required>
+        <mat-error *ngIf="form.controls.carrierId.invalid && form.controls.carrierId.touched">
+          <span>Carrier id required. </span>
+        </mat-error>
+      </mat-form-field>
+      <div>
+          <button mat-raised-button color="primary">Submit</button>
+      </div>
+    </form>
+    {{form.value | json}}
+  <div *ngIf="result">
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">CarrierId</th>
+              <th scope="col">Name of the Carrier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of result; let i = index">
+                <td scope="row">{{i}}</td>
+              <td scope="row">{{row.carrierId}}</td>
+              <td scope="row">{{row.Name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</section>

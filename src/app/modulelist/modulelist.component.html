@@ -1,0 +1,5 @@
+
+<mat-list>
+  <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}" >
+    {{currentModule.Title}}</a>
+</mat-list>

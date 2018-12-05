@@ -1,0 +1,10 @@
+<p>   Select query list to get the details  </p>
+<div class="container">
+  <mat-list role="list">
+    <button *ngFor="let listmine of filterWROList" mat-list-item 
+    routerLink="{{listmine.routerLink}}" >{{listmine.name}}</button>
+  
+  </mat-list>
+
+<div class="row"></div>
+</div>   

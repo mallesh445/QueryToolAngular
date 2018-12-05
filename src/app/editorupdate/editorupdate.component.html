@@ -1,0 +1,84 @@
+ 
+  <div class="card">
+      <div class="card-header">
+          Add or Update Query 
+        </div>
+          <div class="card-body">
+              <form [formGroup]="form" (ngSubmit)="formSubmit()">
+                  <div class="col-md-5">
+                      
+                      <mat-form-field>                
+                          <mat-select  placeholder="Select Module" [(value)]="selectedModule">
+                            <mat-option *ngFor="let module of allModules" [value]="module.Title">
+                              {{module.Title}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field><br>
+                    </div>
+                 
+                    <div class="col-md-10">
+                        
+                        <mat-form-field>
+                            <mat-select placeholder="Select Operation" [(value)]="selectedOperation">
+                              <mat-option value="Selection">Selection</mat-option>
+                              <mat-option value="Creation">Creation</mat-option>
+                              <mat-option value="Deletion">Deletion</mat-option>
+                              <mat-option value="Updation">Updation</mat-option>
+                            </mat-select>
+                          </mat-form-field><br>
+                    </div>
+
+                      <div class="col-md-5">
+                         
+                          <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Table Name" value="">
+                            </mat-form-field> <br>
+                      </div>
+                        
+            <div class="col-md-5">
+              
+              <mat-form-field class="example-full-width">
+                  <textarea matInput placeholder="enter query"
+                   [value]="" (input)="builtQuery = $event.target.value;"></textarea>
+                </mat-form-field>
+            </div>
+                         
+                  <div formArrayName="items">
+                      <div class="row">
+                        <div class="col-md-1">
+                          <button class="btn btn-outline-secondary"
+                                  type="button"
+                                  (click)="addItems()">Add Parameter
+                          </button>
+                        </div>
+                      </div>
+                      <div class="form-group row"
+                           *ngFor="let item of items.controls; let i=index">
+                        <label class="col-md-2 col-form-label"
+                               [attr.for]="i">Parameter{{i}}</label>
+              
+                        <div class="col-md-5">
+                          <input class="form-control"
+                                 [id]="i" aria-required="true"
+                                 type="text" placeholder="Enter Parameter Name"
+                                 [formControlName]="i" >
+                        </div>
+                        <button class="col-md-2 btn btn-outline-warning"
+                                type="button"
+                                (click)="removeItem(i)">Remove Parameter
+                        </button>
+                      </div>
+                    </div>
+            
+                    <div>
+                        <button mat-raised-button color="primary"  (click)="insertQuery()">Insert</button>
+                        &nbsp;&nbsp;
+                          <button mat-raised-button color="primary"  (click)="UpdateQuery()">Update</button>
+                    </div>
+                </form>
+          </div>
+          
+  </div> 
+
+
+
