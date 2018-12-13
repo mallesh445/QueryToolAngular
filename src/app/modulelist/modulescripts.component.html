@@ -54,7 +54,6 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
       <button mat-stroked-button (click)="tableToExcel('genericTable', 'dataSource')" value="Export to Excel">Export to Excel</button>
-      <!-- <input type="button" (click)="tableToExcel('genericTable', 'dataSource')" value="Export to Excel"> -->
     </div>
     <div *ngIf="!disableDIV">
       No data found...
