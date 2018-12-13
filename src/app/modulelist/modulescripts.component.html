@@ -1,29 +1,28 @@
-
 <section class="container">
   <p>
     Get the data based on Parameters
   </p>
-  <button mat-raised-button routerLink="/editorupdate/a" style="float:right;">New!</button>
-  <button mat-raised-button routerLink="/editorupdate/{{result[0].ScriptId}}" style="float:right;">Edit!</button>
   <div *ngFor="let list of result">
-     <label for="a"><b>{{list.Title}} Script :</b> </label> {{list.Script1}} <br>
-    <div *ngFor="let item of list.Parameters; let i = index" >
-       <div>
-          {{item.ParameterName}}
-       </div>
-       <div>
-         <input type="text" (blur)="onParaBlur(i,$event.target.value)" ><br><br>
-       </div>
+    <button mat-raised-button routerLink="/editorupdate/{{list.ScriptId}}" style="float:right;">Edit!</button>
+
+    <!-- <mat-card><b>{{list.Title}} Script :</b> {{list.Script1}} </mat-card> <br> -->
+    <div *ngFor="let item of list.Parameters; let i = index">
+      <div>
+        {{item.ParameterName}}
+      </div>
+      <div>
+        <input type="text" (blur)="onParaBlur(i,$event.target.value)"><br><br>
+      </div>
     </div>
     <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
   </div>
 
-<!-- Table to display the grid data for respective Script. -->
-<div>
-  <!-- {{resultGrid|json}}  -->
-  <br> 
-</div> 
- <div *ngIf="resultGrid">
+  <!-- Table to display the grid data for respective Script. -->
+  <div>
+    <!-- {{resultGrid|json}}  -->
+    <br>
+  </div>
+  <!-- <div *ngIf="resultGrid">
     <div style="overflow-x:scroll;">
       <table class="table table-striped">
         <thead>
@@ -38,8 +37,31 @@
        </tbody>
      </table>
     </div> 
-  </div>
-  <div *ngIf="errorMessage">
-      {{errorMessage}}
+  </div> -->
+  <div>
+
+    <div class="mat-elevation-z8" [hidden]="!disableDIV">
+      <mat-table id="genericTable" #table [dataSource]="dataSource" style="overflow-x:scroll;">
+
+        <ng-container *ngFor="let thisCol of columnNames; let colIndex = index" matColumnDef="{{thisCol}}">
+          <mat-header-cell *matHeaderCellDef> {{thisCol}} </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element[thisCol]}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnNames"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnNames;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+      <button mat-stroked-button (click)="tableToExcel('genericTable', 'dataSource')" value="Export to Excel">Export to Excel</button>
+      <!-- <input type="button" (click)="tableToExcel('genericTable', 'dataSource')" value="Export to Excel"> -->
     </div>
+    <div *ngIf="!disableDIV">
+      No data found...
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage">
+    <b>Error : </b> {{errorMessage.message}}
+  </div>
 </section>

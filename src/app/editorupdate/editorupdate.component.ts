@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,FormArray, Validators, FormControl } from '@angular/forms';
 import { ShipbobService } from '../services/shipbob.service';
-import { Routes, Router } from '@angular/router';
+import { Routes, Router,ActivatedRoute } from '@angular/router';
 import {SessionService} from '../services/session.services';
 
 @Component({
@@ -22,8 +22,9 @@ export class EditorupdateComponent implements OnInit {
   parametersArray:Array<any>[] = [];
   result:any;
   allModules:any;
+  queryId: number = 0;
   
-    constructor(private fb: FormBuilder, private service: ShipbobService, private router:Router, private mySession:SessionService) { }
+    constructor(private fb: FormBuilder, private service: ShipbobService, private router:Router,private route: ActivatedRoute, private mySession:SessionService) { }
   
     insertQuery(){
 
@@ -59,8 +60,12 @@ export class EditorupdateComponent implements OnInit {
       console.log(p);
     }
   ngOnInit() {
-    var editQuery = this.mySession.session;
-    console.log("session");
+    this.route.params.subscribe(params=>{
+      this.queryId=params['id']      
+    });
+
+
+    var editQuery = this.mySession.session;    
     console.log(editQuery);
     
 
@@ -73,7 +78,7 @@ export class EditorupdateComponent implements OnInit {
       this.errorMessage = error;
     },
     () => {      
-   // this.InitializeForm(editQuery);
+    this.InitializeForm(editQuery);
     }
     );
   }
@@ -103,6 +108,8 @@ removeItem(index: any) {
 InitializeForm(query:object){
    this.selectedModule = query[0].ModuleId;
    this.selectedOperation = query[0].OperationId;
+   this.builtQuery = query[0].Script1;
+   
 }
 
 }

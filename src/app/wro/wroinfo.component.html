@@ -14,65 +14,7 @@
         <button mat-raised-button color="primary">Submit</button>
       </div>
     </form>
-    <!-- {{form.value | json}} -->
-    <div></div>
-    <!-- <div *ngIf="result" style="overflow-x:scroll;">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">RequestID</th>
-            <th scope="col">FulfillmentCenterId</th>
-            <th scope="col">UserId</th>
-            <th scope="col">InventoryDetails</th>
-            <th scope="col">Status</th>
-            <th scope="col">InsertDate</th>
-            <th scope="col">PackageQuantity</th>
-            <th scope="col">SendOption</th>
-            <th scope="col">ExpectedDateOfArrival</th>
-            <th scope="col">TrackingDetails</th>
-            <th scope="col">PackageType</th>
-            <th scope="col">FromUserContactId</th>
-            <th scope="col">LastUpdate</th>
-            <th scope="col">LastUpdateBy</th>
-            <th scope="col">BoxPackagingType</th>
-            <th scope="col">IsV2Request</th>
-            <th scope="col">ReturnId</th>
-            <th scope="col">IsProcessing</th>
-            <th scope="col">ArrivedDate</th>
-            <th scope="col">ReceivingDate</th>
-            <th scope="col">Source</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of result; let i = index">
-              <td scope="row">{{i}}</td>
-            <td scope="row">{{row.RequestID}}</td>
-            <td scope="row">{{row.FulfillmentCenterId}}</td>
-            <td scope="row">{{row.UserId}}</td>
-            <td scope="row">{{row.InventoryDetails}}</td>
-            <td scope="row">{{row.Status}}</td>
-            <td scope="row">{{row.InsertDate}}</td>
-            <td scope="row">{{row.PackageQuantity}}</td>
-            <td scope="row">{{row.SendOption}}</td>
-            <td scope="row">{{row.ExpectedDateOfArrival}}</td>
-            <td scope="row">{{row.TrackingDetails}}</td>
-            <td scope="row">{{row.PackageType}}</td>
-            <td scope="row">{{row.FromUserContactId}}</td>
-            <td scope="row">{{row.LastUpdate}}</td>
-            <td scope="row">{{row.LastUpdateBy}}</td>
-            <td scope="row">{{row.BoxPackagingType}}</td>
-            <td scope="row">{{row.IsV2Request}}</td>
-            <td scope="row">{{row.ReturnId}}</td>
-            <td scope="row">{{row.IsProcessing}}</td>
-            <td scope="row">{{row.ArrivedDate}}</td>
-            <td scope="row">{{row.ReceivingDate}}</td>
-            <td scope="row">{{row.Source}}</td>
-            
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
+  
     <div ngIf="columns" style="overflow-x:scroll;">
       <table class="table table-striped">
         <thead>

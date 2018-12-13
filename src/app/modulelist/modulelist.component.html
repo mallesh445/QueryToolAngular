@@ -1,5 +1,12 @@
 
+<br>
+<div class="container"> 
+  <button mat-raised-button routerLink="/editorupdate/-1" style="float:right;">New!</button><br> 
+</div>
+<br>
+
 <mat-list>
   <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}" >
-    {{currentModule.Title}}</a>
+    {{currentModule.Title}}
+    <mat-divider></mat-divider> </a>
 </mat-list>
