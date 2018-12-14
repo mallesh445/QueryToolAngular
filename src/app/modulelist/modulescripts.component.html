@@ -3,9 +3,9 @@
     Get the data based on Parameters
   </p>
   <div *ngFor="let list of result">
-    <button mat-raised-button routerLink="/editorupdate/{{list.ScriptId}}" style="float:right;">Edit!</button>
+    <button mat-raised-button routerLink="/editorupdate/{{list.ScriptId}}"  color="accent" style="float:right">Edit!</button>
 
-    <!-- <mat-card><b>{{list.Title}} Script :</b> {{list.Script1}} </mat-card> <br> -->
+    <mat-card><b>{{list.Title}} Script :</b> {{list.Script1}} </mat-card> <br>
     <div *ngFor="let item of list.Parameters; let i = index">
       <div>
         {{item.ParameterName}}
@@ -22,24 +22,7 @@
     <!-- {{resultGrid|json}}  -->
     <br>
   </div>
-  <!-- <div *ngIf="resultGrid">
-    <div style="overflow-x:scroll;">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col" *ngFor="let col of columnNames">{{col}}</th>
-          </tr>
-       </thead>
-       <tbody>
-          <tr *ngFor="let obj of resultGrid">
-             <td scope="row" *ngFor="let col of columnNames"> {{obj[col]}}</td>
-          </tr>
-       </tbody>
-     </table>
-    </div> 
-  </div> -->
   <div>
-
     <div class="mat-elevation-z8" [hidden]="!disableDIV">
       <mat-table id="genericTable" #table [dataSource]="dataSource" style="overflow-x:scroll;">
 
