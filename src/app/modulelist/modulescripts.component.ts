@@ -35,7 +35,7 @@ para:Array<any>[] = [];
       console.log("Id : "+this.id);
       this.service.getScriptDetailsByScriptId(this.id).subscribe(
         res=>{ 
-          console.log(res);
+          console.log("modulescript : "+res);
           this.result=res;
           this.columns = Object.keys(res[0])
           this.mySession.session = res;          
@@ -55,7 +55,7 @@ para:Array<any>[] = [];
   }
 
   formSubmit(value:any){
-   this.queryCondition = this.result[0].Script1 + " where ";
+   this.queryCondition = this.result[0].Script1;
    this.errorMessage=null;
     this.result.forEach(script => {
       for(let i=0 ; i<script.Parameters.length;i++){      
