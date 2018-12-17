@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@ang
 import { ShipbobService } from '../services/shipbob.service';
 import { Routes, Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../services/session.services';
-import { timingSafeEqual } from 'crypto';
+import { Module } from '../modulelist/moduleentity.model';
+//import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-editorupdate',
@@ -13,6 +14,7 @@ import { timingSafeEqual } from 'crypto';
 export class EditorupdateComponent implements OnInit {
   form: FormGroup;
   errorMessage: any;
+  module_entity: Module;
   ddl: any;
   editShow: boolean = true;
   columns: any;
@@ -23,54 +25,17 @@ export class EditorupdateComponent implements OnInit {
   selectedOperation: number;
   parametersArray: Array<any>[] = [];
   result: any;
+  builtQueryControl: any;
+  queryTitleControl: any;
   allModules: any;
   queryId: number = 0;
   selectedModuleTitle = "";
 
-  constructor(private fb: FormBuilder, private service: ShipbobService, private router: Router, private route: ActivatedRoute, private mySession: SessionService) { }
-
-  insertQuery() {
-    this.requiredInsertData = this.selectedModule + "," + this.selectedOperation + "," + this.builtQuery + "," + this.queryTitle + "," + this.parametersArray;
-    this.service.insertNewQueryInScripts(this.requiredInsertData).subscribe(
-      resq => {
-        console.log(resq);
-        this.result = resq;
-      },
-
-      (error) => {
-        console.log(error);
-        this.errorMessage = error;
-      },
-      (complete) => {
-        for(var module of this.allModules)
-        {      
-          if (module.ModuleId == this.selectedModule) {
-            this.selectedModuleTitle = module.Title;
-            break;
-          }
-        }
-        this.router.navigateByUrl("modulelist/" + this.selectedModuleTitle);
-        this.clearForm();
-      }
-    );
+  constructor(private fb: FormBuilder, private service: ShipbobService, private router: Router, private route: ActivatedRoute, private mySession: SessionService) {
+    this.queryTitleControl = new FormControl('', [Validators.required]);
+    this.builtQueryControl = new FormControl('', [Validators.required]);
   }
 
-  clearForm() {
-    this.selectedModule = 0;
-    this.selectedModuleTitle = "";
-    this.selectedOperation = 0;
-    this.builtQuery = "";
-    this.queryTitle = "";
-
-  }
-
-  formSubmit() {
-    console.log(this.selectedModule);
-    this.requiredInsertData = this.selectedModule + "," + this.selectedOperation + "," + this.builtQuery + "," + this.queryTitle;
-    console.log(this.requiredInsertData);
-    const p = { ...this.form.value };
-    console.log(p);
-  }
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.queryId = params['id']
@@ -87,18 +52,97 @@ export class EditorupdateComponent implements OnInit {
         this.errorMessage = error;
       },
       () => {
-        if(this.queryId > 0)
-        this.InitializeForm(editQuery);
-        
+        if (this.queryId > 0)
+          this.InitializeForm(editQuery);
+        else
+          this.clearForm();
       }
     );
   }
 
+  insertQuery() {
+    this.module_entity = new Module(this.selectedModule, this.selectedOperation, this.builtQuery, this.queryTitle, this.queryId);
+    this.requiredInsertData = JSON.stringify(this.module_entity);
+    this.service.insertNewQueryInScripts(this.requiredInsertData).subscribe(
+      resq => {
+        console.log(resq);
+        this.result = resq;
+      },
+
+      (error) => {
+        console.log(error);
+        this.errorMessage = error;
+      },
+      (complete) => {
+        for (var module of this.allModules) {
+          if (module.ModuleId == this.selectedModule) {
+            this.selectedModuleTitle = module.Title;
+            break;
+          }
+        }
+        this.router.navigateByUrl("modulelist/" + this.selectedModule);
+        this.clearForm();
+      }
+    );
+  }
+
+  clearForm() {
+    this.selectedModule = 0;
+    this.selectedModuleTitle = "";
+    this.selectedOperation = 0;
+    this.builtQuery = "";
+    this.queryTitle = "";
+
+  }
+
+  updateQuery() {
+    this.module_entity = new Module(this.selectedModule, this.selectedOperation, this.builtQuery, this.queryTitle, this.queryId);
+    this.requiredInsertData = JSON.stringify(this.module_entity);
+    this.service.updateExistingQueryByScriptId(this.requiredInsertData).subscribe(
+      resq => {
+        this.result = resq;
+      },
+      (error) => {
+        this.errorMessage = error;
+      },
+      (complete) => {
+        for (var module of this.allModules) {
+          if (module.ModuleId == this.selectedModule) {
+            this.selectedModuleTitle = module.Title;
+            break;
+          }
+        }
+        this.router.navigateByUrl("modulelist/" + this.selectedModule);
+        this.clearForm();
+      }
+    );
+  }
+
+  cancel() {
+    // Simply navigate back to reminders view
+    debugger;
+    if(this.selectedModule){
+      this.router.navigateByUrl("modulelist/" + this.selectedModule);
+    }else{
+      this.router.navigateByUrl("/");
+    }
+  }
+
+  formSubmit() {
+    console.log(this.selectedModule);
+    this.requiredInsertData = this.selectedModule + "," + this.selectedOperation + "," + this.builtQuery + "," + this.queryTitle;
+    console.log(this.requiredInsertData);
+    const p = { ...this.form.value };
+    console.log(p);
+  }
+
+ 
 
   InitializeForm(query: object) {
     this.selectedModule = query[0].ModuleId;
     this.selectedOperation = query[0].OperationId;
     this.builtQuery = query[0].Script1;
+    this.queryTitle= query[0].Title;
 
   }
 

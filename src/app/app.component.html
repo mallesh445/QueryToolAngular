@@ -13,7 +13,7 @@
         <a *ngFor="let nav of fillerNav"  mat-list-item routerLink="{{nav.routerLink}}" >{{nav.name}}</a>
       </mat-nav-list> -->
       <mat-nav-list>
-        <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulelist/{{currentModule.Title}}" >{{currentModule.Title}}</a>
+        <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulelist/{{currentModule.ModuleId}}" >{{currentModule.Title}}</a>
       </mat-nav-list>
     </mat-sidenav>
 

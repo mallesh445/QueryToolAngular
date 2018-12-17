@@ -20,6 +20,7 @@ import { ModulescriptsComponent } from './modulelist/modulescripts.component';
 import { EditorupdateComponent } from './editorupdate/editorupdate.component';
 import {SessionService} from './services/session.services';
 import { CommonModule } from '@angular/common';
+import { ExcelService } from './services/excel.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CommonModule } from '@angular/common';
   exports: [CommonModule, MatToolbarModule, MatInputModule, MatTableModule],
   providers: [
     ShipbobService,
-    SessionService
+    SessionService,
+    ExcelService
   ],
   bootstrap: [AppComponent]
 })
