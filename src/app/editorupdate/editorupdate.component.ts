@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@ang
 import { ShipbobService } from '../services/shipbob.service';
 import { Routes, Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../services/session.services';
-import { timingSafeEqual } from 'crypto';
+import { moduleentity } from '../modulelist/moduleentity.model';
+//import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-editorupdate',
@@ -13,6 +14,7 @@ import { timingSafeEqual } from 'crypto';
 export class EditorupdateComponent implements OnInit {
   form: FormGroup;
   errorMessage: any;
+  module_entity:moduleentity;
   ddl: any;
   editShow: boolean = true;
   columns: any;
@@ -29,8 +31,9 @@ export class EditorupdateComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private service: ShipbobService, private router: Router, private route: ActivatedRoute, private mySession: SessionService) { }
 
-  insertQuery() {
-    this.requiredInsertData = this.selectedModule + "," + this.selectedOperation + "," + this.builtQuery + "," + this.queryTitle + "," + this.parametersArray;
+  insertQuery() { 
+    this.module_entity = new moduleentity(this.selectedModule,this.selectedOperation,this.builtQuery,this.queryTitle);
+    this.requiredInsertData=JSON.stringify(this.module_entity);
     this.service.insertNewQueryInScripts(this.requiredInsertData).subscribe(
       resq => {
         console.log(resq);
