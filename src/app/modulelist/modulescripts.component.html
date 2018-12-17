@@ -15,6 +15,11 @@
       </div>
     </div>
     <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
+    <span class="glyphicon glyphicon-export"></span>
+    <div *ngIf="disableDIV">
+      <button mat-stroked-button (click)="exportAsXLSX()" class="exportbutton" value="Export to Excel">
+          <span class="glyphicon glyphicon-export"></span> Export to Excel</button>
+    </div><br>
   </div>
 
   <!-- Table to display the grid data for respective Script. -->
@@ -36,7 +41,6 @@
       </mat-table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-      <button mat-stroked-button (click)="exportAsXLSX()" color="primary" value="Export to Excel">Export to Excel</button>
     </div>
     <div *ngIf="!disableDIV">
       No data found...
