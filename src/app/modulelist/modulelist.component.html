@@ -1,14 +1,18 @@
-
 <div class="basic-container">
-<br>
-<div> 
-  <button mat-raised-button routerLink="/editorupdate/-1" style="float:right;">New!</button><br> 
-</div>
-<br> 
+  <br>
+  <div class="row">
+    <div *ngIf="result" class="col-md-8">
+      <h3>{{result[0].ModuleTitle}}</h3>
+    </div> 
+    <div class="col-md-4">
+       <button mat-raised-button routerLink="/editorupdate/-1" style="float:right;">New!</button><br>
+    </div>
+  </div>
+  <br>
 
-<mat-list>
-  <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}" >
-    {{currentModule.Title}}
-    <mat-divider></mat-divider> </a>
-</mat-list>
+  <mat-list>
+    <a *ngFor="let currentModule of result" mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}">
+      {{currentModule.Title}}
+      <mat-divider></mat-divider> </a>
+  </mat-list>
 </div>
