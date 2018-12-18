@@ -1,17 +1,17 @@
 <section class="container">
-  <p>
-    Get the data based on Parameters
-  </p>
-  <div *ngFor="let list of result">
+  
+  <div *ngFor="let list of result" id="ngTopDiv">
     <button mat-raised-button routerLink="/editorupdate/{{list.ScriptId}}"  color="accent" style="float:right">Edit!</button>
-
-    <mat-card><b>{{list.Title}} Script :</b> {{list.Script1}} </mat-card> <br>
+    <mat-card><b>{{list.Title}} Script :</b> {{list.Script}} </mat-card> <br>
+    <p>
+        Get the data based on Parameters
+      </p>
     <div *ngFor="let item of list.Parameters; let i = index">
       <div>
-        {{item.ParameterName}}
+        {{item.parameterName}}
       </div>
       <div>
-        <input type="text" (blur)="onParaBlur(i,$event.target.value)"><br><br>
+        <input type="text" (blur)="onParaBlur(i,$event.target.value)" required><br><br>
       </div>
     </div>
     <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
@@ -42,7 +42,7 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
     </div>
-    <div *ngIf="!disableDIV">
+    <div *ngIf="!isDataFound">
       No data found...
     </div>
   </div>

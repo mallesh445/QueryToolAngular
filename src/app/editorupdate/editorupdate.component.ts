@@ -60,6 +60,7 @@ export class EditorupdateComponent implements OnInit {
     );
   }
 
+  //Insert Query Method
   insertQuery() {
     this.module_entity = new Module(this.selectedModule, this.selectedOperation, this.builtQuery, this.queryTitle, this.queryId);
     this.requiredInsertData = JSON.stringify(this.module_entity);
@@ -95,6 +96,7 @@ export class EditorupdateComponent implements OnInit {
 
   }
 
+  //Update Query Method
   updateQuery() {
     this.module_entity = new Module(this.selectedModule, this.selectedOperation, this.builtQuery, this.queryTitle, this.queryId);
     this.requiredInsertData = JSON.stringify(this.module_entity);
@@ -138,12 +140,11 @@ export class EditorupdateComponent implements OnInit {
 
  
 
-  InitializeForm(query: object) {
-    this.selectedModule = query[0].ModuleId;
-    this.selectedOperation = query[0].OperationId;
-    this.builtQuery = query[0].Script1;
-    this.queryTitle= query[0].Title;
-
+  InitializeForm(query: any) {
+    this.selectedModule = query.ModuleId;
+    this.selectedOperation = query.OperationId;
+    this.builtQuery = query.Script;
+    this.queryTitle= query.Title;
   }
 
 }
