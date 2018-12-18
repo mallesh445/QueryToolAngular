@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WebApiUrls } from '../util/web-api-urls';
 import { Observable } from 'rxjs';
+import { ScriptEntity } from '../modulelist/ScriptEntity.Model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +60,8 @@ getScriptDetailsByScriptId(id:any){
    );
 }
 
-getDataFromDatabaseForScriptIdWithParameters(data:any){
-  return this.http.get(WebApiUrls.ScriptDetailsDataByScriptQuery +"?data="+data
-    );
+getDataFromDatabaseForScriptIdWithParameters(scriptentity: ScriptEntity){
+  return this.http.post(WebApiUrls.ScriptDetailsDataByScriptQuery, scriptentity );
 }
 
 insertNewQueryInScripts(requiredInsertData: string): any {
