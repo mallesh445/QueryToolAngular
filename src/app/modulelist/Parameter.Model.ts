@@ -1,4 +1,4 @@
-export class Parameters {
+export class Parameter {
 
     public parameterName: string;
     public parameterValue: string;

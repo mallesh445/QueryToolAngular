@@ -1,4 +1,4 @@
-import { Parameters } from "./Parameters.model";
+import { Parameter } from "./Parameter.Model";
 
 export class ScriptEntity{
        
@@ -8,9 +8,9 @@ export class ScriptEntity{
     public Script:string;
     public Table:string;
     public Title:string;
-    public Parameters:Parameters[]=[];
+    public Parameters:Parameter[]=[];
 
-    constructor(ScriptId:number,ModuleId:number,OperationId:number,Script:string,Table:string,Title:string,listParams:Parameters[]){
+    constructor(ScriptId:number,ModuleId:number,OperationId:number,Script:string,Table:string,Title:string,listParams:Parameter[]){
         
         this.ScriptId=ScriptId;
         this.ModuleId=ModuleId;
