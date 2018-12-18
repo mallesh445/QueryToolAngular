@@ -6,7 +6,7 @@ import { SessionService } from '../services/session.services';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { ExcelService } from '../services/excel.service';
 import { ScriptEntity } from './ScriptEntity.Model';
-import { Parameters } from './Parameters.model';
+import { Parameter } from './Parameter.Model';
 
 @Component({
   selector: 'app-modulescripts',
@@ -64,8 +64,8 @@ export class ModulescriptsComponent implements OnInit {
     this.dataSource=null;
     this.errorMessage = null;
     this.queryCondition = this.result[0].Script;
-    let parameters:Parameters[]=[];
-    let parameter:Parameters;
+    let parameters:Parameter[]=[];
+    let parameter:Parameter;
     // this.result.forEach(script => {
     //   for (let i = 0; i < script.Parameters.length; i++) {
         
@@ -86,10 +86,9 @@ export class ModulescriptsComponent implements OnInit {
     // });
     console.log(this.queryCondition);
 
-    debugger;
     for(let i=0;i < this.result[0].Parameters.length;i++)
     {
-      parameter = new Parameters(this.result[0].Parameters[i].parameterName,this.para[i].toString());
+      parameter = new Parameter(this.result[0].Parameters[i].parameterName,this.para[i].toString());
       parameters.push(parameter);
     }
     this.scriptEntity = new ScriptEntity(this.result[0].ScriptId,this.result[0].ModuleId,this.result[0].OperationId,
