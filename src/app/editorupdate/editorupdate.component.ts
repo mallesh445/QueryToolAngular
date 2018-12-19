@@ -122,7 +122,7 @@ export class EditorupdateComponent implements OnInit {
 
   cancel() {
     // Simply navigate back to reminders view
-    debugger;
+    alert("Do you want to Cancel");
     if(this.selectedModule){
       this.router.navigateByUrl("modulelist/" + this.selectedModule);
     }else{
