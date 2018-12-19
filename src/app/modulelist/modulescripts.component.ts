@@ -29,7 +29,8 @@ export class ModulescriptsComponent implements OnInit {
   para: Array<any>[] = [];
   isDataFound:boolean;
   scriptEntity:ScriptEntity;
- 
+  isRequiredException:boolean=false;
+  RequiredMessage:string;
 
   constructor(private route: ActivatedRoute, private service: ShipbobService, private mySession: SessionService, private excelService: ExcelService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -57,6 +58,10 @@ export class ModulescriptsComponent implements OnInit {
   onParaBlur(paraIndex: number, paraVaue: any): void {
     console.log("blur");
     this.para[paraIndex] = paraVaue;
+    if(!paraVaue){
+      this.isRequiredException=true;
+      this.RequiredMessage= "This "+this.result[0].Parameters[paraIndex].parameterName+" field is required";
+    }
   }
 
   formSubmit() {

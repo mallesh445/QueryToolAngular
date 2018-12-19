@@ -27,12 +27,7 @@
     flex-direction: column;
     max-height: 500px;
   }
-//   .container{
-//       background-color: white;
-//       border: 1.5px solid black;
-//       border-radius: 10px;
-//       text-align: center;
-//   }
+
   .mat-table {
     overflow: auto;
     max-height: 500px;
@@ -47,10 +42,10 @@
       background-color: rgba(255, 255, 255, 0.959);
     //   height : 100vh;
       overflow: auto;   
-      width: 1123px;
+      //width: 1123px;
   }
   .mat-header-cell, .mat-cell {
-      min-width: 150px;
+      min-width: 160px;
   }
   .mat-form-field-underline{
       background-color:transparent;
@@ -81,4 +76,7 @@
   }
   #ngTopDiv {
     padding: 10px;
+    margin-top: 10px;
+    width:auto;
+//    height: 500px;
 }
