@@ -1,62 +1,81 @@
 <section class="container-fluid">
-<mat-card class="example-card" id="ngTopDiv">
-  <div *ngFor="let list of result">
-    <button mat-raised-button routerLink="/editorupdate/{{list.ScriptId}}"  color="accent" style="float:right">Edit!</button>
-    <mat-card style="background-color:#92dbe7"><b>{{list.Title}} Script :</b> {{list.Script}} </mat-card> <br>
-    <p>
+  <mat-card class="example-card" id="ngTopDiv">
+    <div *ngFor="let list of result">
+
+      <div class="row">
+        <div class="col-md-8">
+          <mat-card style="background-color:#92dbe7"><b>{{list.Title}} Script :</b> {{list.Script}} </mat-card> <br>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+              <div class="col-md-6">
+                 <mat-slide-toggle class="example-margin" [color]="color" [checked]="true" (change)=allowPagination()
+                    >Enable Pagination</mat-slide-toggle>
+                </div>
+                <div class="col-md-6">
+                  <button mat-raised-button routerLink="/editorupdate/{{list.ScriptId}}" style="float:left" color="accent">Edit!</button>
+                </div>
+          </div>          
+        </div>
+      </div>
+
+      <p>
         Get the data based on Parameters
       </p>
       <span style="color:red" *ngIf="isRequiredException" [innerText]="RequiredMessage"></span>
-    <div *ngFor="let item of list.Parameters; let i = index">
+      <div *ngFor="let item of list.Parameters; let i = index">
         <div class="form-group">
-            <label class="control-label col-sm-2">{{item.parameterName}}:</label>
-            <div class="col-sm-10">          
-              <input type="text" class="form-control" (blur)="onParaBlur(i,$event.target.value)" placeholder="Enter {{item.parameterName}}"
-               required>
-            </div>
+          <label class="control-label col-sm-2">{{item.parameterName}}:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" (blur)="onParaBlur(i,$event.target.value)" placeholder="Enter {{item.parameterName}}"
+              required>
           </div>
-      <!-- <div>
+        </div>
+        <!-- <div>
           <mat-label>{{item.parameterName}}</mat-label>
       </div>
       <div>
         <input type="text" (blur)="onParaBlur(i,$event.target.value)" required><br><br>
       </div> -->
-    </div>
-    <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
-    <span class="glyphicon glyphicon-export"></span>
-    <div *ngIf="disableDIV">
-      <button mat-stroked-button (click)="exportAsXLSX()" class="exportbutton" value="Export to Excel">
+      </div>
+      <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
+      <span class="glyphicon glyphicon-export"></span>
+      <div class="loading-indicator">
+          <mat-spinner *ngIf=isSpinnerRunning style="float:center"></mat-spinner>
+      </div>
+      <div *ngIf="disableDIV">
+        <button mat-stroked-button (click)="exportAsXLSX()" class="exportbutton" value="Export to Excel">
           <span class="glyphicon glyphicon-export"></span> Export to Excel</button>
-    </div><br>
-  </div>
-
-  <!-- Table to display the grid data for respective Script. -->
-  <div>
-    <!-- {{resultGrid|json}}  -->
-    <br>
-  </div>
-  <div>
-    <div class="mat-elevation-z8" [hidden]="!disableDIV">
-      <mat-table id="genericTable" #table [dataSource]="dataSource" style="overflow-x:scroll;">
-
-        <ng-container *ngFor="let thisCol of columnNames; let colIndex = index" matColumnDef="{{thisCol}}">
-          <mat-header-cell *matHeaderCellDef> {{thisCol}} </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element[thisCol]}} </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="columnNames"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: columnNames;"></mat-row>
-      </mat-table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
+      </div><br>
     </div>
-    <div *ngIf="!isDataFound">
-      No data found...
-    </div>
-  </div>
 
-  <div *ngIf="errorMessage">
-    <b>Error : </b> {{errorMessage.message}}
-  </div>
-</mat-card>
+    <!-- Table to display the grid data for respective Script. -->
+    <div>
+      <!-- {{resultGrid|json}}  -->
+      <br>
+    </div>
+    <div>
+      <div class="mat-elevation-z8" [hidden]="!disableDIV">
+        <mat-table id="genericTable" #table matSort [dataSource]="dataSource" style="overflow-x:scroll;">
+
+          <ng-container *ngFor="let thisCol of columnNames; let colIndex = index" matColumnDef="{{thisCol}}">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{thisCol}} </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element[thisCol]}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columnNames"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnNames;"></mat-row>
+        </mat-table>
+        <mat-paginator *ngIf="isAllowPagination" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+      </div>
+      <div *ngIf="!isDataFound">
+        No data found...
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage">
+      <b>Error : </b> {{errorMessage.message}}
+    </div>
+  </mat-card>
 </section>

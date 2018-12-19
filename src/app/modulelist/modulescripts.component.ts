@@ -3,7 +3,7 @@ import { ShipbobService } from '../services/shipbob.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { SessionService } from '../services/session.services';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator,MatSort } from '@angular/material';
 import { ExcelService } from '../services/excel.service';
 import { ScriptEntity } from './ScriptEntity.Model';
 import { Parameter } from './Parameter.Model';
@@ -31,10 +31,12 @@ export class ModulescriptsComponent implements OnInit {
   scriptEntity:ScriptEntity;
   isRequiredException:boolean=false;
   RequiredMessage:string;
+  isAllowPagination:boolean = true;
+  isSpinnerRunning:boolean = false;
 
   constructor(private route: ActivatedRoute, private service: ShipbobService, private mySession: SessionService, private excelService: ExcelService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
     this.isDataFound = true;
     this.sub = this.route.params.subscribe(params => {
@@ -62,33 +64,30 @@ export class ModulescriptsComponent implements OnInit {
       this.isRequiredException=true;
       this.RequiredMessage= "This "+this.result[0].Parameters[paraIndex].parameterName+" field is required";
     }
+    else{
+      this.isRequiredException=false;
+      this.RequiredMessage=null;
+    }
+  }
+
+  allowPagination(){
+    alert("Please submit again to refresh the grid")
+    if(this.isAllowPagination){
+      this.isAllowPagination = false;
+    }else{
+      this.isAllowPagination = true;
+    }
   }
 
   formSubmit() {
+    this.isSpinnerRunning=true;
     this.disableDIV=false;
     this.dataSource=null;
     this.errorMessage = null;
     this.queryCondition = this.result[0].Script;
     let parameters:Parameter[]=[];
     let parameter:Parameter;
-    // this.result.forEach(script => {
-    //   for (let i = 0; i < script.Parameters.length; i++) {
-        
-    //     //this.queryCondition += script.Parameters[i].parameterName + " = " + this.para[i];
-    //     this.queryCondition = this.queryCondition.replace("@"+script.Parameters[i].parameterName,this.para[i].toString());
-    //   }
-    // });
-    
-    //Here removing the string after where condition.
-    // this.queryCondition = this.queryCondition.substring(0, this.queryCondition.indexOf("where")) + " where ";
-    // this.result.forEach(script => {
-    //   for (let i = 0; i < script.Parameters.length; i++) {
-    //     this.queryCondition += script.Parameters[i].parameterName + " = " + this.para[i];
-    //     if (script.Parameters.length != i + 1) {
-    //       this.queryCondition += " and "
-    //     }
-    //   }
-    // });
+
     console.log(this.queryCondition);
 
     for(let i=0;i < this.result[0].Parameters.length;i++)
@@ -112,6 +111,8 @@ export class ModulescriptsComponent implements OnInit {
           this.isDataFound = true;
         }
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isSpinnerRunning=false;
       },
       (error) => {
         console.log(error);
