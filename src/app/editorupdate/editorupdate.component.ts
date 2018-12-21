@@ -35,6 +35,7 @@ export class EditorupdateComponent implements OnInit {
     this.queryTitleControl = new FormControl('', [Validators.required]);
     this.builtQueryControl = new FormControl('', [Validators.required]);
   }
+  
 
   ngOnInit() {
     this.route.params.subscribe(params => {

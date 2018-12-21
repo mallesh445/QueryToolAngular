@@ -3,10 +3,13 @@ import { ShipbobService } from '../services/shipbob.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { SessionService } from '../services/session.services';
-import { MatTableDataSource, MatPaginator,MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { ExcelService } from '../services/excel.service';
 import { ScriptEntity } from './ScriptEntity.Model';
 import { Parameter } from './Parameter.Model';
+import { ExportToCSV } from "@molteni/export-csv";
+// import { jsPDF } from "jspdf";
+import * as jsPDF from "jspdf";
 
 @Component({
   selector: 'app-modulescripts',
@@ -27,12 +30,13 @@ export class ModulescriptsComponent implements OnInit {
   queryCondition: string;
   showPagination: boolean = false;
   para: Array<any>[] = [];
-  isDataFound:boolean;
-  scriptEntity:ScriptEntity;
-  isRequiredException:boolean=false;
-  RequiredMessage:string;
-  isAllowPagination:boolean = true;
-  isSpinnerRunning:boolean = false;
+  isDataFound: boolean;
+  scriptEntity: ScriptEntity;
+  isRequiredException: boolean = false;
+  RequiredMessage: string;
+  isAllowPagination: boolean = true;
+  isSpinnerRunning: boolean = false;
+  imagePath: string = "../assets/images/load_machines.gif";
 
   constructor(private route: ActivatedRoute, private service: ShipbobService, private mySession: SessionService, private excelService: ExcelService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -60,45 +64,46 @@ export class ModulescriptsComponent implements OnInit {
   onParaBlur(paraIndex: number, paraVaue: any): void {
     console.log("blur");
     this.para[paraIndex] = paraVaue;
-    if(!paraVaue){
-      this.isRequiredException=true;
-      this.RequiredMessage= "This "+this.result[0].Parameters[paraIndex].parameterName+" field is required";
+    if (!paraVaue) {
+      this.isRequiredException = true;
+      this.RequiredMessage = "This " + this.result[0].Parameters[paraIndex].parameterName + " field is required";
     }
-    else{
-      this.isRequiredException=false;
-      this.RequiredMessage=null;
+    else {
+      this.isRequiredException = false;
+      this.RequiredMessage = null;
     }
   }
 
-  allowPagination(){
-    alert("Please submit again to refresh the grid")
-    if(this.isAllowPagination){
-      this.isAllowPagination = false;
-    }else{
-      this.isAllowPagination = true;
-    }
+  allowPagination() {
+    if (this.resultGrid != null){
+      if (this.isAllowPagination) {
+        this.isAllowPagination = false;
+      } else {
+        this.isAllowPagination = true;
+      }
+      this.formSubmit();
+    }    
   }
 
   formSubmit() {
-    this.isSpinnerRunning=true;
-    this.disableDIV=false;
-    this.dataSource=null;
+    this.isSpinnerRunning = true;
+    this.disableDIV = false;
+    this.dataSource = null;
     this.errorMessage = null;
     this.queryCondition = this.result[0].Script;
-    let parameters:Parameter[]=[];
-    let parameter:Parameter;
+    let parameters: Parameter[] = [];
+    let parameter: Parameter;
 
     console.log(this.queryCondition);
 
-    for(let i=0;i < this.result[0].Parameters.length;i++)
-    {
-      parameter = new Parameter(this.result[0].Parameters[i].parameterName,this.para[i].toString());
+    for (let i = 0; i < this.result[0].Parameters.length; i++) {
+      parameter = new Parameter(this.result[0].Parameters[i].parameterName, this.para[i].toString());
       parameters.push(parameter);
     }
-    this.scriptEntity = new ScriptEntity(this.result[0].ScriptId,this.result[0].ModuleId,this.result[0].OperationId,
-      this.result[0].Script,this.result[0].Table,this.result[0].Title,parameters);
-      console.log(this.scriptEntity);
-    
+    this.scriptEntity = new ScriptEntity(this.result[0].ScriptId, this.result[0].ModuleId, this.result[0].OperationId,
+      this.result[0].Script, this.result[0].Table, this.result[0].Title, parameters);
+    console.log(this.scriptEntity);
+
     this.service.getDataFromDatabaseForScriptIdWithParameters(this.scriptEntity).subscribe(
       resq => {
         console.log(resq);
@@ -112,19 +117,26 @@ export class ModulescriptsComponent implements OnInit {
         }
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.isSpinnerRunning=false;
       },
       (error) => {
         console.log(error);
         this.errorMessage = error.errorMessage;
         this.isDataFound = false;
       }
-    );
-    //console.log(value);
+    ).add(() => this.isSpinnerRunning = false);
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.resultGrid, 'sampledataq');
+    this.excelService.exportAsExcelFile(this.resultGrid, 'ExcelData');
+  }
+
+  exportAsCSV(): void {
+    var exporter = new ExportToCSV();
+    exporter.exportColumnsToCSV(this.resultGrid, "CsvData.csv", this.columnNames);
+    //exporter.exportAllToCSV(this.resultGrid,"csvfilename.csv");
   }
 }
