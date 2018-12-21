@@ -8,8 +8,6 @@ import { ExcelService } from '../services/excel.service';
 import { ScriptEntity } from './ScriptEntity.Model';
 import { Parameter } from './Parameter.Model';
 import { ExportToCSV } from "@molteni/export-csv";
-// import { jsPDF } from "jspdf";
-import * as jsPDF from "jspdf";
 
 @Component({
   selector: 'app-modulescripts',
