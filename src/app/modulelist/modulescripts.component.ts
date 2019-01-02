@@ -8,6 +8,7 @@ import { ExcelService } from '../services/excel.service';
 import { ScriptEntity } from './ScriptEntity.Model';
 import { Parameter } from './Parameter.Model';
 import { ExportToCSV } from "@molteni/export-csv";
+import { MyErrorStateMatcher } from '../Models/ErrorStateMatcher';
 
 @Component({
   selector: 'app-modulescripts',
@@ -35,12 +36,21 @@ export class ModulescriptsComponent implements OnInit {
   isAllowPagination: boolean = true;
   isSpinnerRunning: boolean = false;
   imagePath: string = "../assets/images/load_machines.gif";
+  matcher = new MyErrorStateMatcher();
+  parametersResult: any;
+  isFirstime: boolean = true;
 
-  constructor(private route: ActivatedRoute, private service: ShipbobService, private mySession: SessionService, private excelService: ExcelService) { }
+  constructor(private route: ActivatedRoute,
+    private service: ShipbobService,
+    private mySession: SessionService,
+    private excelService: ExcelService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
   ngOnInit() {
+    this.isFirstime=true;
     this.isDataFound = true;
+    //debugger;
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id']
       this.service.getScriptDetailsByScriptId(this.id).subscribe(
@@ -50,6 +60,13 @@ export class ModulescriptsComponent implements OnInit {
           // this.columns = Object.keys(res[0])
           this.mySession.session = res;
           this.showPagination = true;
+          // latest change 
+          this.result.forEach(data => {
+            console.log(data.Parameters);
+            this.parametersResult = data.Parameters;
+            this.form = this.service.getDynamicForm(data.Parameters);
+            
+          });
         },
         (error) => {
           console.log(error);
@@ -59,7 +76,32 @@ export class ModulescriptsComponent implements OnInit {
     });
   }
 
+  // isValidFlag: boolean = false;
+  // get isValid() {
+  //   this.isValidFlag = this.parametersResult.forEach(res => {
+  //     // debugger;
+  //     return this.form.controls[res.parameterName].valid;
+  //   });
+  //   // return this.isValidFlag;
+  //   if (this.isValidFlag == true) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  isValidation(value: any) {
+   
+    // console.log( this.form.controls[value]);
+    
+    if(this.form.controls[value].valid) {
+      return true;
+    }
+    return false;
+  }
+
+
   onParaBlur(paraIndex: number, paraVaue: any): void {
+    this.isFirstime=false;
     console.log("blur");
     this.para[paraIndex] = paraVaue;
     if (!paraVaue) {
@@ -73,14 +115,14 @@ export class ModulescriptsComponent implements OnInit {
   }
 
   allowPagination() {
-    if (this.resultGrid != null){
+    if (this.resultGrid != null) {
       if (this.isAllowPagination) {
         this.isAllowPagination = false;
       } else {
         this.isAllowPagination = true;
       }
       this.formSubmit();
-    }    
+    }
   }
 
   formSubmit() {
@@ -106,7 +148,7 @@ export class ModulescriptsComponent implements OnInit {
       resq => {
         console.log(resq);
         this.resultGrid = resq;
-        this.columnNames = Object.keys(resq[0])
+        this.columnNames = Object.keys(resq[0]);
         console.log(this.columnNames);
         this.dataSource = new MatTableDataSource(this.resultGrid);
         if (this.dataSource.filteredData.length > 0) {

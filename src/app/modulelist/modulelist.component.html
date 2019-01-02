@@ -3,16 +3,43 @@
   <div class="row">
     <div *ngIf="result" class="col-md-8">
       <h3>{{result[0].ModuleTitle}}</h3>
-    </div> 
+    </div>
     <div class="col-md-4">
-       <button mat-raised-button routerLink="/editorupdate/-1" style="float:right;">New!</button><br>
+      <button mat-raised-button routerLink="/editorupdate/-1" style="float:right;">New!</button><br>
     </div>
   </div>
   <br>
 
-  <mat-list>
-    <a *ngFor="let currentModule of result" mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}">
-      {{currentModule.Title}}
+  <!-- <mat-list>
+    <a *ngFor="let currentModule of result" mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}"
+    style="text-decoration: none;">
+      <i class="material-icons">list_alt </i> {{currentModule.Title}}
       <mat-divider></mat-divider> </a>
-  </mat-list>
+  </mat-list> -->
+
+  <div *ngFor="let currentModule of result" class="col-sm-11">
+    <mat-list>
+      <div class="row col-sm-11">
+        <div class="col-sm-8">
+          <a mat-list-item routerLink="/modulescripts/{{currentModule.ScriptId}}" style="text-decoration: none;">
+            <i class="material-icons">list_alt </i> &nbsp;{{currentModule.Title}}
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <button mat-button routerLink="/editorupdate/{{currentModule.ScriptId}}" style="float:right;">
+            <i class="material-icons">edit </i></button>
+        </div>
+        <div class="col-sm-2">
+          <button mat-button style="float:right;" [matMenuTriggerFor]="menu">
+            <i class="material-icons">more_horiz </i></button>
+          <!-- <button class="exportbutton" mat-button [matMenuTriggerFor]="menu">Export</button> -->
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialog(this.currentModule.ScriptId,this.currentModule.Title)" >Rename</button>
+            <button mat-menu-item >Archive</button>
+          </mat-menu>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </div>
 </div>
