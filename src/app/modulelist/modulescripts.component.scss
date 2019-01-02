@@ -2,8 +2,8 @@
     background-color:slateblue;
 }
 
-.submitButton{
-    background-color:green;
+.submitModuleScript{
+    padding: 0px;
 }
 // .mat-row:nth-child(even){
 //     background-color:papayawhip;
@@ -17,7 +17,7 @@
      }
      
      .mat-card{
-         width: 85%;
+         width: 98%;
      }
 // .mat-table {
 //     overflow-x: scroll;
@@ -77,8 +77,13 @@
   #ngTopDiv {
     padding: 10px;
     margin-top: 10px;
-    width:auto;
+    //width:auto;
 //    height: 500px;
+}
+
+.customDiv{
+    //height: 35px;
+    padding-top: 21px;
 }
 
 /* Absolute Center Spinner */

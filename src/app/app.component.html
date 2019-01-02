@@ -13,12 +13,17 @@
         <a *ngFor="let nav of fillerNav"  mat-list-item routerLink="{{nav.routerLink}}" >{{nav.name}}</a>
       </mat-nav-list> -->
       <mat-nav-list>
-        <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulelist/{{currentModule.ModuleId}}" >{{currentModule.Title}}</a>
+        <a *ngFor="let currentModule of result"  mat-list-item routerLink="/modulelist/{{currentModule.ModuleId}}" >
+          <i class="material-icons folderClass">folder_open </i>&nbsp;{{currentModule.Title}}</a>
       </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content style="background-color:white">
+      <!-- <breadcrumb [allowBootstrap]="true"></breadcrumb> -->
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <footer style="background-color:#3f51b5">
+    <p style="text-align: center; color: white">© 2018 Copyright:<a href="https://www.ggktech.com" style="color:white"> ggktech.com</a></p>
+  </footer>
 </div>

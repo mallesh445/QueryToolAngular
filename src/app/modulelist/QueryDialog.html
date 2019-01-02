@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>ScriptId : {{data.id}}</h1>
+<form novalidate [formGroup]="queryForm">
+  <div mat-dialog-content>
+    <p>Would you like to Update Query Title?</p>
+    <mat-form-field>
+      <input matInput value="{{data.title}}" formControlName="queryTitle" placeholder="Query Title" required>
+      <mat-error *ngIf="queryForm.controls.queryTitle.invalid && queryForm.controls.queryTitle.touched">
+        <span>Title cannot  be empty.</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="UpdateTitle()">Update</button>
+    <button mat-button [mat-dialog-close]="title" (click)="UpdateTitle()" cdkFocusInitial>Cancel</button>
+  </div>
+</form>
+<!-- <mat-dialog-content>
+    <p>
+        Do you want to see the snackbar?
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onYesClick()" tabindex="1">YES</button>
+    <button mat-button mat-dialog-close tabindex="-1">NO</button>
+</mat-dialog-actions> -->

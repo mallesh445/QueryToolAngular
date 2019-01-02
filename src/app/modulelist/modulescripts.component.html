@@ -4,7 +4,7 @@
       <h2>{{list.Title}}</h2><br>
       <div class="row">
         <div class="col-md-8">
-          <mat-card style="background-color:#92dbe7"><b>Script :</b> {{list.Script}} </mat-card> <br>
+          <mat-card style="background-color:#92dbe7"><h6>Script : {{list.Script}}</h6> </mat-card> <br>
         </div>
         <div class="col-md-4">
           <div class="row">
@@ -20,7 +20,47 @@
         </div>
       </div>
 
-      <h5>Get the data based on Parameters</h5>
+      <h6>Please type in to investigate {{list.Title}}</h6>
+      <div>
+        <div [formGroup]="form">
+          <div *ngFor="let currentItem of parametersResult; let i = index">
+         
+            <!--  -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="row">
+                      <div class="col-md-3"></div>
+                      <div class="col-md-9 customDiv">
+                        <label [attr.for]="currentItem.parameterName">{{currentItem.label}}</label>:
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="row">
+                      <mat-form-field>
+                        <input matInput [formControlName]="currentItem.parameterName" [errorStateMatcher]="matcher"
+                          (blur)="onParaBlur(i,$event.target.value)" placeholder="Enter {{currentItem.parameterName}}">
+                          <mat-error *ngIf="!isValidation(currentItem.parameterName)">
+                              <span>{{currentItem.label}} is required</span>
+                            </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-3 customDiv" *ngIf="!isFirstime">
+                    <mat-error *ngIf="!isValidation(currentItem.parameterName)">
+                      {{currentItem.label}} is required
+                    </mat-error>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <!--  -->
+
+          </div>
+        </div>
+      </div>
       <div *ngFor="let item of list.Parameters; let i = index">
         <!-- <div class="form-group">
           <label class="control-label col-sm-2">{{item.parameterName}}:</label>
@@ -29,7 +69,7 @@
             <span style="color:red" *ngIf="isRequiredException" [innerText]="RequiredMessage"></span>
           </div>
         </div> -->
-        <div class="form-group">
+        <!-- <div class="form-group">
           <div class="row">
             <div class="col-md-6">
               <div class="row">
@@ -49,14 +89,14 @@
             </div>
           </div>
 
-        </div>
+        </div> -->
       </div>
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
 
         </div>
-        <div class="col-md-10">
-          <button mat-raised-button (click)="formSubmit(key)" color="primary">Submit</button>
+        <div class="col-md-8 submitModuleScript">
+          <button mat-raised-button (click)="formSubmit(key)" color="primary" [disabled]="!form.valid">Submit</button>
         </div>
       </div>
 
@@ -83,7 +123,7 @@
       <div class="mat-elevation-z8" [hidden]="!disableDIV">
         <div class="col-sm-2">
           <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search...">
           </mat-form-field>
         </div>
         <mat-table id="genericTable" #table matSort [dataSource]="dataSource" style="overflow-x:scroll;">

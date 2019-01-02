@@ -14,6 +14,6 @@ export const WebApiUrls = {
     wropackinginfoURL:"http://localhost:50527/api/WRO/GetWROInfoByWROId/",
     ScriptDetailsDataByScriptQuery:"http://localhost:50527/api/Modules/GetScriptDetailsDataByScriptQuery",
     InsertScriptQueryUrl:"http://localhost:50527/api/Modules/InsertNewQueryInScripts",
-    UpdateScriptQueryUrl:"http://localhost:50527/api/Modules/UpdateExistingQueryInScripts"
-
+    UpdateScriptQueryUrl:"http://localhost:50527/api/Modules/UpdateExistingQueryInScripts",
+    UpdateQueryTitleByQueryId:"http://localhost:50527/api/Modules/UpdateQueryTitleByQueryId"
 }

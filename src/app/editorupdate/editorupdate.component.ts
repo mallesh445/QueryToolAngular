@@ -25,6 +25,7 @@ export class EditorupdateComponent implements OnInit {
   selectedOperation: number;
   parametersArray: Array<any>[] = [];
   result: any;
+  resultM: any;
   builtQueryControl: any;
   queryTitleControl: any;
   allModules: any;
@@ -35,9 +36,11 @@ export class EditorupdateComponent implements OnInit {
     this.queryTitleControl = new FormControl('', [Validators.required]);
     this.builtQueryControl = new FormControl('', [Validators.required]);
   }
-  
+
 
   ngOnInit() {
+    this.createFormControls();
+    this.createForm();
     this.route.params.subscribe(params => {
       this.queryId = params['id']
     });
@@ -53,12 +56,26 @@ export class EditorupdateComponent implements OnInit {
         this.errorMessage = error;
       },
       () => {
+        //debugger;
+        editQuery = {};
         if (this.queryId > 0)
-          this.InitializeForm(editQuery);
+          this.InitializeForm(editQuery,this.queryId);
         else
           this.clearForm();
       }
     );
+  }
+
+  createFormControls() {
+    this.queryTitleControl = new FormControl('', Validators.required);
+  }
+
+  createForm() {
+    this.form = this.fb.group({
+      queryTitle: ['', Validators.required],
+      builtQuery: ['', Validators.required],
+      selectedModule: [0, Validators.required]
+    });
   }
 
   //Insert Query Method
@@ -124,9 +141,9 @@ export class EditorupdateComponent implements OnInit {
   cancel() {
     // Simply navigate back to reminders view
     alert("Do you want to Cancel");
-    if(this.selectedModule){
+    if (this.selectedModule) {
       this.router.navigateByUrl("modulelist/" + this.selectedModule);
-    }else{
+    } else {
       this.router.navigateByUrl("/");
     }
   }
@@ -139,13 +156,38 @@ export class EditorupdateComponent implements OnInit {
     console.log(p);
   }
 
- 
 
-  InitializeForm(query: any) {
-    this.selectedModule = query.ModuleId;
-    this.selectedOperation = query.OperationId;
-    this.builtQuery = query.Script;
-    this.queryTitle= query.Title;
+
+  InitializeForm(query: any,queryId:number) {
+    let queryArray=Object.values(query);
+    //debugger;
+    //if (query.Title!='undefined')
+    if (queryArray.length>0){
+      this.selectedModule = query.ModuleId;
+      this.selectedOperation = query.OperationId;
+      this.builtQuery = query.Script;
+      this.queryTitle = query.Title;
+    }
+    else{
+      this.service.getScriptDetailsByScriptId(queryId).subscribe(
+        resmine => {
+          this.resultM = resmine;
+          this.resultM = Array.of(this.resultM);
+          this.mySession.session = resmine;
+          //debugger;
+          console.log("mallesh : "+this.resultM);
+          this.selectedModule=this.resultM[0].ModuleId;
+          this.selectedOperation = this.resultM[0].OperationId;
+          this.builtQuery = this.resultM[0].Script;
+          this.queryTitle = this.resultM[0].Title;
+        },
+        (error) => {
+          console.log(error);
+          this.errorMessage = error.errorMessage;
+        }
+      );
+      this.queryTitle='';
+    }
   }
 
 }

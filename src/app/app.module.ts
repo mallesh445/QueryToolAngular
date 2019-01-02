@@ -15,12 +15,13 @@ import { ShipbobService } from './services/shipbob.service';
 import { HttpClientModule } from '@angular/common/http';
 import { WroinfoComponent } from './wro/wroinfo.component';
 import { WrodetailsComponent } from './wro/wrodetails.component';
-import { ModulelistComponent } from './modulelist/modulelist.component';
+import { ModulelistComponent, QueryDialog } from './modulelist/modulelist.component';
 import { ModulescriptsComponent } from './modulelist/modulescripts.component';
 import { EditorupdateComponent } from './editorupdate/editorupdate.component';
 import {SessionService} from './services/session.services';
 import { CommonModule } from '@angular/common';
 import { ExcelService } from './services/excel.service';
+import {BreadcrumbsModule} from "ng6-breadcrumbs";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { ExcelService } from './services/excel.service';
     WrodetailsComponent,
     ModulelistComponent,
     ModulescriptsComponent,
-    EditorupdateComponent
+    EditorupdateComponent,QueryDialog
   ],
   imports: [
     CommonModule, MatToolbarModule, MatInputModule, MatTableModule,
@@ -42,7 +43,8 @@ import { ExcelService } from './services/excel.service';
     RouterModule,
     AngularMaterialModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    BreadcrumbsModule
   ],
   exports: [CommonModule, MatToolbarModule, MatInputModule, MatTableModule],
   providers: [
@@ -50,6 +52,7 @@ import { ExcelService } from './services/excel.service';
     SessionService,
     ExcelService
   ],
+  entryComponents: [QueryDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
