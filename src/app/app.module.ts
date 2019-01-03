@@ -21,7 +21,7 @@ import { EditorupdateComponent } from './editorupdate/editorupdate.component';
 import {SessionService} from './services/session.services';
 import { CommonModule } from '@angular/common';
 import { ExcelService } from './services/excel.service';
-import {BreadcrumbsModule} from "ng6-breadcrumbs";
+// import {BreadcrumbsModule} from "ng6-breadcrumbs";
 
 @NgModule({
   declarations: [
@@ -43,8 +43,7 @@ import {BreadcrumbsModule} from "ng6-breadcrumbs";
     RouterModule,
     AngularMaterialModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    BreadcrumbsModule
+    BrowserAnimationsModule
   ],
   exports: [CommonModule, MatToolbarModule, MatInputModule, MatTableModule],
   providers: [
