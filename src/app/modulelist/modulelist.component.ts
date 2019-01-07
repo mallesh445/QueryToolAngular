@@ -27,7 +27,6 @@ export class ModulelistComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id']
-      debugger;
       console.log(this.id);
       this.service.getModulesListByModuleId(this.id).subscribe(
         res => {
@@ -42,6 +41,20 @@ export class ModulelistComponent implements OnInit {
       );
     });
 
+  }
+
+  
+  deleteModuleList(Id: number) {
+    this.service.DeleteQueryTitleByQueryId(Id).subscribe(
+      resq => {
+        this.result = resq;
+      },
+      (error) => {
+        this.errorMessage = error;
+      },
+      (complete) => {
+      }
+    );
   }
 
   openDialog(Id: number, title: string) {
@@ -82,9 +95,7 @@ export class QueryDialog {
 
   UpdateTitle():void{
     let a=this.queryForm.controls.queryTitle.value;
-    debugger;
     this.service.UpdateQueryTitleByQueryId(this.data.id,this.queryForm.controls.queryTitle.value);
-    debugger;
     this.dialogRef.close(true);
   }
 

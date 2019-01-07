@@ -11,7 +11,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class ShipbobService {
   UpdateQueryTitleByQueryId(id: string, title: string): any {
-    return this.http.post(WebApiUrls.ordersUrl , {id,title});
+    return this.http.post(WebApiUrls.ordersUrl, {id,title});
+  }
+
+  DeleteQueryTitleByQueryId(id: number): any {
+    return this.http.post(WebApiUrls.deleteModuleListURL,{id}); 
   }
 
   constructor(private http: HttpClient) { }
